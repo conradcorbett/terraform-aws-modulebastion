@@ -1,5 +1,11 @@
 # terraform-aws-modulebastion
 
+Demo to show using the PMR in TFC. This module is already published in TFC, module is located at https://github.com/conradcorbett/terraform-aws-modulebastion. To use the module, follow the steps below.
+
+```shell
+mkdir demo && cd demo
+```
+
 ### Create `main.tf`
 
 ```shell
