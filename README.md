@@ -65,6 +65,7 @@ EOF
 
 ### Bonus demo with Sentinel policies
 Enforce a sentinel policy that will only let you deploy from modules in the PMR. Under Policy Sets, apply the "sentinel" policy set to all workspaces in the default project.
+The policies can be viewed at https://github.com/conradcorbett/sentinel
 
 ### Add unapproved module to `main.tf`
 
