@@ -18,7 +18,7 @@ provider "aws" {
 
 module "modulebastion" {
   source  = "app.terraform.io/SeeSquared/modulebastion/aws"
-  version = "1.0.0"
+  version = "1.0.2"
   bastion_instance_type = var.bastion_instance_type
 }
 EOF
