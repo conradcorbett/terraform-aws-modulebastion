@@ -4,6 +4,7 @@ Demo to show using the PMR in TFC. This module is already published in TFC, modu
 
 ```shell
 mkdir demo && cd demo
+export TF_CLOUD_ORGANIZATION=SeeSquared
 ```
 
 ### Create `main.tf`
@@ -44,7 +45,7 @@ EOF
 ### Create `terraform.tf`
 
 ```shell
-cat <<EOF >>variables.tf
+cat <<EOF >>terraform.tf
 terraform {
   cloud {
     workspaces {
@@ -58,6 +59,40 @@ terraform {
       version = "~> 4.10.0"
     }
   }
+}
+EOF
+```
+
+### Bonus demo with Sentinel policies
+Enforce a sentinel policy that will only let you deploy from modules in the PMR. Under Policy Sets, apply the "sentinel" policy set to all workspaces in the default project.
+
+### Add unapproved module to `main.tf`
+
+```shell
+cat <<EOF >>main.tf
+
+data "aws_availability_zones" "available" {
+  state = "available"
+
+  filter {
+    name   = "zone-type"
+    values = ["availability-zone"]
+  }
+}
+
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "3.14.0"
+
+  cidr = "10.0.0.0/16"
+
+  azs             = data.aws_availability_zones.available.names
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+  public_subnets  = ["10.0.10.0/24", "10.0.11.0/24"]
+
+  enable_nat_gateway   = true
+  enable_vpn_gateway   = false
+  enable_dns_hostnames = true
 }
 EOF
 ```
